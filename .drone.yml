@@ -7,3 +7,9 @@ steps:
     image: openjdk:8-jdk
     commands:
       - ./gradlew build
+trigger:
+  branch:
+  - master
+  event:
+  - pull_request
+  - push
