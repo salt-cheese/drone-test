@@ -12,7 +12,7 @@ public class TestController {
         if (name != null && name.length() > 0) {
             return "Hello " + name + ":)";
         } else {
-            return "Hello world !!!";
+            return "Hello world !";
         }
     }
 }
