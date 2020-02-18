@@ -11,7 +11,7 @@ steps:
     image: plugins/docker
     settings:
       auto_tag: true
-      repo: drone/drone
+      repo: muhtarh/test-spring
       username:
         from_secret: docker_username
       password:
