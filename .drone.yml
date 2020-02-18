@@ -6,7 +6,7 @@ steps:
   - name: build
     image: openjdk:8-jdk
     commands:
-      - ./gradlew build
+    - ./gradlew build
   - name: publish
     image: plugins/docker
     settings:
@@ -18,8 +18,8 @@ steps:
         from_secret: docker_password
     when:
       event:
-        - tag
-        - push
+      - tag
+      - push
 trigger:
   branch:
   - master
@@ -50,8 +50,9 @@ steps:
       to:
         from_secret: telegram_notify_to
 depends_on:
-  - build
+- build
+
 trigger:
   status:
-    - success
-    - failure
+  - success
+  - failure
