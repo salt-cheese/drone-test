@@ -15,10 +15,14 @@ steps:
     image: openjdk:8-jdk
     commands:
       - ./gradlew build
+    depends_on:
+      - build1
   - name: build4
     image: openjdk:8-jdk
     commands:
       - ./gradlew build
+    depends_on:
+      - build2
   - name: publish
     image: plugins/docker
     settings:
@@ -29,8 +33,8 @@ steps:
       password:
         from_secret: docker_password
     depends_on:
-      - build1
-      - build2
+      - build3
+      - build4
     when:
       event:
       - tag
