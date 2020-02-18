@@ -11,6 +11,14 @@ steps:
     image: openjdk:8-jdk
     commands:
       - ./gradlew build
+  - name: build3
+    image: openjdk:8-jdk
+    commands:
+      - ./gradlew build
+  - name: build4
+    image: openjdk:8-jdk
+    commands:
+      - ./gradlew build
   - name: publish
     image: plugins/docker
     settings:
