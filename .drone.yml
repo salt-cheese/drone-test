@@ -1,12 +1,16 @@
 kind: pipeline
 type: docker
-name: Build PR
+name: build-PR
 
 steps:
-  - name: build
+  - name: build1
     image: openjdk:8-jdk
     commands:
-    - ./gradlew build
+      - ./gradlew build
+  - name: build2
+    image: openjdk:8-jdk
+    commands:
+      - ./gradlew build
   - name: publish
     image: plugins/docker
     settings:
@@ -16,21 +20,24 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
+    depends_on:
+      - build1
+      - build2
     when:
       event:
       - tag
       - push
 trigger:
   branch:
-  - master
+    - master
   event:
-  - pull_request
-  - push
-  - tag
+    - pull_request
+    - push
+    - tag
 
 ---
 kind: pipeline
-name: Notification
+name: notification
 
 clone:
   disable: true
@@ -50,9 +57,9 @@ steps:
       to:
         from_secret: telegram_notify_to
 depends_on:
-- build
+  - build
 
 trigger:
   status:
-  - success
-  - failure
+    - success
+    - failure
