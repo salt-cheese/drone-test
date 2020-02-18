@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: build-PR
+name: Build-PR
 
 steps:
   - name: build1
