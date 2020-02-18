@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: default
+name: build
 
 steps:
   - name: build
@@ -20,14 +20,6 @@ steps:
       event:
         - tag
         - push
-  - name: notify
-    image: appleboy/drone-telegram
-    settings:
-      token:
-        from_secret: telegram_token
-      to:
-        from_secret: telegram_token
-      message_file: message_file.tpl
 trigger:
   branch:
   - master
@@ -35,3 +27,24 @@ trigger:
   - pull_request
   - push
   - tag
+
+---
+kind: pipeline
+type: docker
+name: notify
+
+steps:
+  - name: notify
+    image: appleboy/drone-telegram
+    settings:
+      token:
+        from_secret: telegram_token
+      to:
+        from_secret: telegram_notify_to
+      message_file: message_file.tpl
+depends_on:
+  - build
+trigger:
+  status:
+    - success
+    - failure
