@@ -30,8 +30,10 @@ trigger:
 
 ---
 kind: pipeline
-type: docker
 name: notify
+
+clone:
+  disable: true
 
 steps:
   - name: notify
