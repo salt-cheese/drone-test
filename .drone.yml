@@ -43,8 +43,9 @@ steps:
           build {{build.number}} succeeded. Good job.
         {{else}}
           build {{build.number}} failed. Fix me please.
-        {{/success}}settings:
-    token:
+        {{/success}}
+    settings:
+      token:
         from_secret: telegram_token
       to:
         from_secret: telegram_notify_to
