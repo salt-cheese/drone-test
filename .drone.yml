@@ -37,7 +37,7 @@ trigger:
 
 ---
 kind: pipeline
-name: notification
+name: Notification
 
 clone:
   disable: true
@@ -57,7 +57,7 @@ steps:
       to:
         from_secret: telegram_notify_to
 depends_on:
-  - build
+  - Build-PR
 
 trigger:
   status:
