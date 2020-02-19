@@ -3,26 +3,10 @@ type: docker
 name: Build-PR
 
 steps:
-  - name: build1
+  - name: build
     image: openjdk:8-jdk
     commands:
       - ./gradlew build
-  - name: build2
-    image: openjdk:8-jdk
-    commands:
-      - ./gradlew build
-  - name: build3
-    image: openjdk:8-jdk
-    commands:
-      - ./gradlew build
-    depends_on:
-      - build1
-  - name: build4
-    image: openjdk:8-jdk
-    commands:
-      - ./gradlew build
-    depends_on:
-      - build2
   - name: publish
     image: plugins/docker
     settings:
@@ -32,9 +16,6 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
-    depends_on:
-      - build3
-      - build4
     when:
       event:
       - tag
@@ -66,8 +47,7 @@ steps:
     settings:
       token:
         from_secret: telegram_token
-      to:
-        from_secret: telegram_notify_to
+      to: muhtarh
 depends_on:
   - Build-PR
 
