@@ -37,17 +37,17 @@ clone:
 
 steps:
   - name: slack
-  image: plugins/slack
-  settings:
-    webhook:
-      from_secret: slack_webhook
-    channel: nofitication
-    template: >
-      {{#success build.status}}
-        build {{build.number}} succeeded. Good job.
-      {{else}}
-        build {{build.number}} failed. Fix me please.
-      {{/success}}
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: slack_webhook
+      channel: nofitication
+      template: >
+        {{#success build.status}}
+          build {{build.number}} succeeded. Good job.
+        {{else}}
+          build {{build.number}} failed. Fix me please.
+        {{/success}}
 depends_on:
   - Build-PR
 
