@@ -40,13 +40,15 @@ steps:
     settings:
       host: hello.imuttar.com
       username:
-        form_secret: ssh_user
+        from_secret: ssh_user
       password:
         from_secret: ssh_password
       port: 22
       script:
         - docker-compose down
         - docker-compose up -d
+depends_on:
+  - Build-PR
 trigger:
   branch:
     - master
