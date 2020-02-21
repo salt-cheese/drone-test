@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  drone:
+    image: muhtarh/test-spring
+    networks:
+      - apps
+    labels:
+      - "traefik.frontend.rule=Host:hello.imuttar.com"
+      - "traefik.port=80"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.frameDeny=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.rateLimit.extractorFunc=client.ip"
+      - "traefik.frontend.rateLimit.rateSet.loginrate.period=1"
+      - "traefik.frontend.rateLimit.rateSet.loginrate.average=50"
+      - "traefik.frontend.rateLimit.rateSet.loginrate.burst=70"
+    restart: always
+
+networks:
+  apps:
+    external:
+      name: apps
