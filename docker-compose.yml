@@ -7,7 +7,7 @@ services:
       - apps
     labels:
       - "traefik.frontend.rule=Host:hello.imuttar.com"
-      - "traefik.port=80"
+      - "traefik.port=9092"
       - "traefik.frontend.headers.browserXSSFilter=true"
       - "traefik.frontend.headers.contentTypeNosniff=true"
       - "traefik.frontend.headers.frameDeny=true"

@@ -54,7 +54,6 @@ trigger:
     - master
   event:
     - tag
-    - push
 ---
 kind: pipeline
 name: Notification
