@@ -6,9 +6,7 @@ steps:
   - name: build
     image: openjdk:8-jdk
     environment:
-      HELLO_APP_DB_TEST_NAME:
-        from_secret: mariadb_test_db_name
-      HELLO_APP_DB_TEST_URL: jdbc:mysql://database:3306/${HELLO_APP_DB_TEST_NAME}
+      HELLO_APP_DB_TEST_URL: jdbc:mysql://database:3306/hello_test
       HELLO_APP_DB_TEST_USERNAME:
         from_secret: mariadb_test_username
       HELLO_APP_DB_TEST_PASSWORD:
@@ -44,8 +42,7 @@ services:
       MYSQL_PASSWORD:
         from_secret: mariadb_test_password
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-      MYSQL_DATABASE:
-        from_secret: mariadb_test_db_name
+      MYSQL_DATABASE: hello_test
 
 trigger:
   branch:
