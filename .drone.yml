@@ -6,9 +6,13 @@ steps:
   - name: build
     image: openjdk:8-jdk
     environment:
-      HELLO_APP_DB_TEST_URL: jdbc:mysql://database:3306/hello_test
-      HELLO_APP_DB_TEST_USERNAME: helloworld
-      HELLO_APP_DB_TEST_PASSWORD: problemfree
+      HELLO_APP_DB_TEST_NAME:
+        from_secret: mariadb_test_db_name
+      HELLO_APP_DB_TEST_URL: jdbc:mysql://database:3306/${HELLO_APP_DB_TEST_NAME}
+      HELLO_APP_DB_TEST_USERNAME:
+        from_secret: mariadb_test_username
+      HELLO_APP_DB_TEST_PASSWORD:
+        from_secret: mariadb_test_password
     commands:
       - sleep 30
       - ./gradlew clean build --profile --full-stacktrace
@@ -33,10 +37,13 @@ services:
     ports:
       - 3306
     environment:
-      MYSQL_USER: helloworld
-      MYSQL_PASSWORD: problemfree
+      MYSQL_USER:
+        from_secret: mariadb_test_username
+      MYSQL_PASSWORD:
+        from_secret: mariadb_test_password
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-      MYSQL_DATABASE: hello_test
+      MYSQL_DATABASE:
+        from_secret: mariadb_test_db_name
 
 trigger:
   branch:
