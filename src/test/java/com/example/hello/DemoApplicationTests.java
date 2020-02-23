@@ -1,4 +1,4 @@
-package com.muhtar;
+package com.example.hello;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
