@@ -8,10 +8,8 @@ services:
     ports:
       - 3306
     environment:
-      MYSQL_USER:
-        from_secret: mariadb_user_test
-      MYSQL_PASSWORD:
-        from_secret: mariadb_user_test_password
+      MYSQL_USER: helloworld
+      MYSQL_PASSWORD: problemfree
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       MYSQL_DATABASE: hello_test
 
@@ -20,10 +18,8 @@ steps:
     image: openjdk:8-jdk
     environment:
       HELLO_APP_DB_TEST_URL: jdbc:mysql://database:3306/hello_test
-      HELLO_APP_DB_TEST_USERNAME:
-        from_secret: mariadb_user_test
-      HELLO_APP_DB_TEST_PASSWORD:
-        from_secret: mariadb_user_test_password
+      HELLO_APP_DB_TEST_USERNAME: helloworld
+      HELLO_APP_DB_TEST_PASSWORD: problemfree
     commands:
       - echo $HELLO_APP_DB_TEST_USERNAME
       - sleep 30
