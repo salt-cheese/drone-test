@@ -26,7 +26,9 @@ steps:
         from_secret: mariadb_user_test_password
     commands:
       - sleep 15
-      - ./gradlew clean build
+      - ./gradlew clean build --profile --full-stacktrace
+    depends_on:
+      - database
   - name: publish
     image: plugins/docker
     settings:
@@ -38,6 +40,8 @@ steps:
         from_secret: docker_password
       tag:
         - latest
+    depends_on:
+      - build
     when:
       event:
       - tag
