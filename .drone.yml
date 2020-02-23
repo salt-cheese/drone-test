@@ -2,6 +2,31 @@ kind: pipeline
 type: docker
 name: Build-PR
 
+steps:
+  - name: build
+    image: openjdk:8-jdk
+    environment:
+      HELLO_APP_DB_TEST_URL: jdbc:mysql://database:3306/hello_test
+      HELLO_APP_DB_TEST_USERNAME: helloworld
+      HELLO_APP_DB_TEST_PASSWORD: problemfree
+    commands:
+      - sleep 30
+      - ./gradlew clean build --profile --full-stacktrace
+  - name: publish
+    image: plugins/docker
+    settings:
+      repo: muhtarh/test-spring
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      tag:
+        - latest
+    when:
+      event:
+      - tag
+      - push
+
 services:
   - name: database
     image: mariadb:10.4
@@ -12,37 +37,6 @@ services:
       MYSQL_PASSWORD: problemfree
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       MYSQL_DATABASE: hello_test
-
-steps:
-  - name: build
-    image: openjdk:8-jdk
-    environment:
-      HELLO_APP_DB_TEST_URL: jdbc:mysql://database:3306/hello_test
-      HELLO_APP_DB_TEST_USERNAME: helloworld
-      HELLO_APP_DB_TEST_PASSWORD: problemfree
-    commands:
-      - echo $HELLO_APP_DB_TEST_USERNAME
-      - sleep 30
-      - ./gradlew clean build --profile --full-stacktrace
-    depends_on:
-      - database
-  - name: publish
-    image: plugins/docker
-    settings:
-      auto_tag: true
-      repo: muhtarh/test-spring
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      tag:
-        - latest
-    depends_on:
-      - build
-    when:
-      event:
-      - tag
-      - push
 
 trigger:
   branch:
@@ -101,6 +95,12 @@ depends_on:
   - Deploy
 
 trigger:
+  branch:
+    - master
+  event:
+    - pull_request
+    - push
+    - tag
   status:
     - success
     - failure
