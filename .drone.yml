@@ -54,6 +54,9 @@ trigger:
 kind: pipeline
 name: Deploy
 
+clone:
+  disable: true
+
 steps:
   - name: deploy-docker
     image: appleboy/drone-ssh
@@ -74,6 +77,7 @@ trigger:
     - master
   event:
     - tag
+
 ---
 kind: pipeline
 name: Notification
