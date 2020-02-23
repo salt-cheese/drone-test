@@ -104,6 +104,12 @@ depends_on:
   - Deploy
 
 trigger:
+  branch:
+    - master
+  event:
+    - pull_request
+    - push
+    - tag
   status:
     - success
     - failure
