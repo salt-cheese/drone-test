@@ -2,10 +2,30 @@ kind: pipeline
 type: docker
 name: Build-PR
 
+services:
+  - name: database
+    image: mariadb:10.4
+    ports:
+      - 3306
+    environment:
+      MYSQL_USER:
+        from_secret: mariadb_user_test
+      MYSQL_PASSWORD:
+        from_secret: mariadb_user_test_password
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: hello_test
+
 steps:
   - name: build
     image: openjdk:8-jdk
+    environment:
+      HELLO_APP_DB_TEST_URL: jdbc:mysql://database:3306/hello_test
+      HELLO_APP_DB_TEST_USERNAME:
+        from_secret: mariadb_user_test
+      HELLO_APP_DB_TEST_PASSWORD:
+        from_secret: mariadb_user_test_password
     commands:
+      - sleep 15
       - ./gradlew clean build
   - name: publish
     image: plugins/docker
@@ -22,6 +42,7 @@ steps:
       event:
       - tag
       - push
+
 trigger:
   branch:
     - master
