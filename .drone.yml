@@ -27,7 +27,6 @@ steps:
     commands:
       - sleep 30
       - ./gradlew clean build --profile --full-stacktrace
-      - cat build/reports/tests/test/index.html
     depends_on:
       - database
   - name: publish
@@ -105,12 +104,6 @@ depends_on:
   - Deploy
 
 trigger:
-  branch:
-    - master
-  event:
-    - pull_request
-    - push
-    - tag
   status:
     - success
     - failure
