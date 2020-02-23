@@ -25,8 +25,9 @@ steps:
       HELLO_APP_DB_TEST_PASSWORD:
         from_secret: mariadb_user_test_password
     commands:
-      - sleep 15
+      - sleep 30
       - ./gradlew clean build --profile --full-stacktrace
+      - cat build/reports/tests/test/index.html
     depends_on:
       - database
   - name: publish
