@@ -25,6 +25,7 @@ steps:
       HELLO_APP_DB_TEST_PASSWORD:
         from_secret: mariadb_user_test_password
     commands:
+      - echo $HELLO_APP_DB_TEST_USERNAME
       - sleep 30
       - ./gradlew clean build --profile --full-stacktrace
     depends_on:
