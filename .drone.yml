@@ -69,6 +69,7 @@ steps:
       port: 22
       script:
         - docker-compose down
+        - docker pull muhtarh/test-spring:latest
         - docker-compose up -d
 depends_on:
   - Build-PR
